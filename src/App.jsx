@@ -11,7 +11,7 @@ export default function App() {
       <Navbar />
 
 
-      <main className="min-h-screen">
+      <main className="mb-150">
         <p>This is home page</p>
       </main>
 

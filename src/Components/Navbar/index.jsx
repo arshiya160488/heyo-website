@@ -1,45 +1,72 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import MenuItem from './MenuItem'
-import { Hamburger, HamburgerIcon, TextAlignJustify  } from 'lucide-react'
+import HamburgerMenu from './HamburgerMenu'
+import { TextAlignJustify, X } from 'lucide-react'
 
 export default function Navbar() {
+  const [openMenu, setOpenMenu] = useState(false)
 
+  const handleopen = () => setOpenMenu(prev => !prev)
 
+  const closeMenu = () => {
+    setOpenMenu(false)
+  }
 
   return (
     <>
-<div className="w-full lg:max-w-[1328px] px-6  mx-auto">
+      {/* Mobile Menu */}
+      <HamburgerMenu
+        openMenu={openMenu}
+        closeMenu={closeMenu}
+      />
+
+      {/* Navbar */}
+      <header className="relative z-50 mx-auto w-full px-4 lg:max-w-[1328px]">
         <div className="flex h-[107px] items-center justify-between">
 
-          <div>
-            {/* lego site  */}
-            <Link to={'/'}>
-              <div className='w-25'>
-                <img src="../../../public/icon/heyo-logo-header.svg" alt="lego" title='lego' />
-              </div>
-            </Link>
-          </div>
+          {/* Logo */}
+          <Link to="/" onClick={closeMenu}>
+            <div className="w-[100px]">
+              <img
+                className={openMenu ? 'brightness-0 invert' : ''}
+                src="/icon/heyo-logo-header.svg"
+                alt="Heyo"
+                title="Heyo"
+              />
+            </div>
+          </Link>
 
-
-
-
+          {/* Desktop Menu */}
           <div className="hidden md:flex">
             <MenuItem />
           </div>
 
-
-
-
-
+          {/* Buttons */}
           <div>
-            <button className=' bg-yellow-300 px-3 py-2.5 rounded-xl hover:bg-yellow-500 hover: cursor-pointer hidden md:flex'>Let's Chat</button>
-            <TextAlignJustify  className='xs:flex md:hidden size-7 cursor-pointer' />
+            <button className="hidden cursor-pointer rounded-xl bg-yellow-300 px-3 py-2.5 hover:bg-yellow-500 md:flex">
+              Let's Chat
+            </button>
+
+            <button
+              onClick={handleopen}
+              aria-label={openMenu ? 'Close menu' : 'Open menu'}
+              aria-expanded={openMenu}
+              className={`flex cursor-pointer md:hidden ${
+                openMenu ? 'text-white' : 'text-black'
+              }`}
+            >
+              {openMenu ? (
+                <X className="size-8" />
+              ) : (
+                <TextAlignJustify className="size-7" />
+              )}
+            </button>
           </div>
 
-        </div >
-      </div >
+        </div>
+      </header>
     </>
   )
 }
